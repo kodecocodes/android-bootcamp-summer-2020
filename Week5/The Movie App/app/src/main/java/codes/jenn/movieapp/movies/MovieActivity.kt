@@ -29,20 +29,8 @@ class MovieActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    if (movieRepository.getNumberOfMoviesInDb() < 1) {
-      movieRepository.storeMovies(movieList)
-    }
+    movieRepository.storeMoviesIfNotEmpty(movieList)
     initMovieList()
-  }
-
-  private fun initMovieList() {
-    moviesRecyclerView.layoutManager = GridLayoutManager(this, 2)
-    moviesRecyclerView.adapter = movieAdapter
-    movieAdapter.setMovies(movieRepository.getAllMovies())
-  }
-
-  private fun movieClicked(movie: Movie) {
-    startMovieDetailsActivity(this, movie.id)
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,6 +44,16 @@ class MovieActivity : AppCompatActivity() {
       navigateToLogin()
     }
     return false
+  }
+
+  private fun initMovieList() {
+    moviesRecyclerView.layoutManager = GridLayoutManager(this, 2)
+    moviesRecyclerView.adapter = movieAdapter
+    movieAdapter.setMovies(movieRepository.getAllMovies())
+  }
+
+  private fun movieClicked(movie: Movie) {
+    startMovieDetailsActivity(this, movie.id)
   }
 
   private fun navigateToLogin() {

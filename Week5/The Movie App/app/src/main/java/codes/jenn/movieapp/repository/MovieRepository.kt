@@ -10,7 +10,9 @@ class MovieRepository {
 
   fun getMovieById(movieId: Int?) = movieDao.fetchMovieById(movieId)
 
-  fun storeMovies(movies: List<Movie>) = movieDao.storeMovies(movies)
+  private fun storeMovies(movies: List<Movie>) = movieDao.storeMovies(movies)
 
-  fun getNumberOfMoviesInDb(): Int = getAllMovies().count()
+  fun storeMoviesIfNotEmpty(movies: List<Movie>) {
+    if (getAllMovies().count() < 1) storeMovies(movies)
+  }
 }
