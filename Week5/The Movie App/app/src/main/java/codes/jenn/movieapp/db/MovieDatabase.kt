@@ -9,3 +9,5 @@ abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
 }
+
+const val DATABASE_NAME = "movie_database"

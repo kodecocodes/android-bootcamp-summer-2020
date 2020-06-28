@@ -1,18 +1,22 @@
 package codes.jenn.movieapp.login
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import codes.jenn.movieapp.R
 import codes.jenn.movieapp.common.extensions.onClick
 import codes.jenn.movieapp.common.utils.CredentialsValidator
 import codes.jenn.movieapp.movies.startMovieActivity
-import codes.jenn.movieapp.prefs.SharedPrefsManager
+import codes.jenn.movieapp.repository.UserRepository
 import kotlinx.android.synthetic.main.activity_login.*
+
+fun startLoginActivity(from: Context) = from.startActivity(Intent(from, LoginActivity::class.java))
 
 class LoginActivity : AppCompatActivity() {
 
   private val credentialsValidator by lazy { CredentialsValidator() }
-  private val sharedPrefs by lazy { SharedPrefsManager(this) }
+  private val userRepository by lazy { UserRepository() }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -22,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
   }
 
   private fun checkIfUserLoggedIn() {
-    if (sharedPrefs.isUserLoggedIn()) {
+    if (userRepository.isUserLoggedIn()) {
       navigateToMovieScreen()
     }
   }
@@ -37,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
     togglePasswordState()
 
     if (credentialsValidator.areCredentialsValid()) {
-      sharedPrefs.setUserLoggedIn(true)
+      userRepository.setUserLoggedIn(true)
       navigateToMovieScreen()
     }
   }

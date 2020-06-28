@@ -1,6 +1,6 @@
 package codes.jenn.movieapp.common.utils
 
-class CredentialsValidator() {
+class CredentialsValidator {
   private lateinit var username: String
   private lateinit var password: String
 

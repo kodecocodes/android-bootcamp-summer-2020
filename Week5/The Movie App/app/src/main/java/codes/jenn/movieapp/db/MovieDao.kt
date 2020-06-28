@@ -8,9 +8,12 @@ import codes.jenn.movieapp.movies.model.Movie
 @Dao
 interface MovieDao {
 
-    @Insert
-    fun storeMovies(movies: List<Movie>)
+  @Insert
+  fun storeMovies(movies: List<Movie>)
 
-    @Query("SELECT * FROM Movie")
-    fun fetchMovies(): List<Movie>
+  @Query("SELECT * FROM Movie")
+  fun fetchMovies(): List<Movie>
+
+  @Query("SELECT * FROM Movie WHERE id =:movieId")
+  fun fetchMovieById(movieId: Int?): Movie
 }

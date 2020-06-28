@@ -1,5 +1,6 @@
-package codes.jenn.movieapp
+package codes.jenn.movieapp.common
 
+import codes.jenn.movieapp.R
 import codes.jenn.movieapp.movies.model.Movie
 
 var movieList = listOf(
