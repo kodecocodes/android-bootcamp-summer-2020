@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import codes.jenn.movieapp.R
 import codes.jenn.movieapp.common.movieList
@@ -16,6 +18,7 @@ import codes.jenn.movieapp.movies.model.Movie
 import codes.jenn.movieapp.repository.MovieRepository
 import codes.jenn.movieapp.repository.UserRepository
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.launch
 
 fun startMovieActivity(from: Context) = from.startActivity(Intent(from, MovieActivity::class.java))
 
@@ -24,12 +27,20 @@ class MovieActivity : AppCompatActivity() {
   private val movieRepository by lazy { MovieRepository() }
   private val userRepository by lazy { UserRepository() }
   private val movieAdapter by lazy { MovieAdapter(::movieClicked) }
+  private val viewModel by lazy {
+    ViewModelProvider(
+      this,
+      MoviesViewModelFactory(movieRepository)
+    ).get(MoviesViewModel::class.java)
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    movieRepository.storeMoviesIfNotEmpty(movieList)
+    lifecycleScope.launch {
+      movieRepository.storeMoviesIfNotEmpty(movieList)
+    }
     initMovieList()
   }
 
@@ -49,7 +60,10 @@ class MovieActivity : AppCompatActivity() {
   private fun initMovieList() {
     moviesRecyclerView.layoutManager = GridLayoutManager(this, 2)
     moviesRecyclerView.adapter = movieAdapter
-    movieAdapter.setMovies(movieRepository.getAllMovies())
+
+    viewModel.getAllMovies { movies ->
+      movieAdapter.setMovies(movies)
+    }
   }
 
   private fun movieClicked(movie: Movie) {

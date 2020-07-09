@@ -22,7 +22,6 @@ class App : Application() {
 
   private fun initRoom() {
     movieDb = Room.databaseBuilder(this, MovieDatabase::class.java, DATABASE_NAME)
-      .allowMainThreadQueries() //This will be fixed in later assignments. This time it is just for simplification
       .build()
   }
 }

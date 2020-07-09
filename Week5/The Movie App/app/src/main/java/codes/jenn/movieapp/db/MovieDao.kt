@@ -10,11 +10,11 @@ import codes.jenn.movieapp.movies.model.Movie
 interface MovieDao {
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun storeMovies(movies: List<Movie>)
+  suspend fun storeMovies(movies: List<Movie>)
 
   @Query("SELECT * FROM Movie")
-  fun fetchMovies(): List<Movie>
+  suspend fun fetchMovies(): List<Movie>
 
   @Query("SELECT * FROM Movie WHERE id =:movieId")
-  fun fetchMovieById(movieId: Int?): Movie
+  suspend fun fetchMovieById(movieId: Int?): Movie
 }

@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import codes.jenn.movieapp.R
 import codes.jenn.movieapp.movies.model.Movie
 import codes.jenn.movieapp.repository.MovieRepository
 import kotlinx.android.synthetic.main.activity_movie_detail.*
+import kotlinx.coroutines.launch
 
 fun startMovieDetailsActivity(from: Context, movieId: Int?) =
   from.startActivity(Intent(from, MovieDetailActivity::class.java).apply {
@@ -23,8 +25,10 @@ class MovieDetailActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_movie_detail)
 
-    val movie = repository.getMovieById(movieId)
-    displayMovieDetails(movie)
+    lifecycleScope.launch {
+      val movie = repository.getMovieById(movieId)
+      displayMovieDetails(movie)
+    }
   }
 
   private fun displayMovieDetails(movie: Movie) {
