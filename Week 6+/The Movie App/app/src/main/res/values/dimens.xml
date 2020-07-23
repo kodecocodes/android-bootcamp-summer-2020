@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="zero">0dp</dimen>
+  <dimen name="elevation">20dp</dimen>
+  <dimen name="eight">8dp</dimen>
+  <dimen name="input_field_margin">16dp</dimen>
+  <dimen name="login_button_margin">40dp</dimen>
+  <dimen name="image_size">260dp</dimen>
+  <dimen name="text_size">40dp</dimen>
+  <dimen name="item_size">300dp</dimen>
+</resources>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">The Movie App</string>
+    <string name="movie_image">The image of the movie.</string>
+    <string name="detail_image">The image for the movie</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+  <string name="login_button_text">Login</string>
+  <string name="username_error">Make sure your username is longer than 2 characters</string>
+  <string name="password_error">Your password needs to have at least 6 characters</string>
+</resources>
