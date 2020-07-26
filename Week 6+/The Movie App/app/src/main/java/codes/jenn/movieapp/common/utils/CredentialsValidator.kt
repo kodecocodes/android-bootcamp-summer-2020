@@ -1,17 +1,17 @@
 package codes.jenn.movieapp.common.utils
 
-class CredentialsValidator {
+class CredentialsValidator : Validator {
   private lateinit var username: String
   private lateinit var password: String
 
-  fun setCredentials(username: String, password: String) {
+  override fun setCredentials(username: String, password: String) {
     this.username = username
     this.password = password
   }
 
-  fun isUsernameValid() = username.length > 2
+  override fun isUsernameValid() = username.length > 2
 
-  fun isPasswordValid() = password.length >= 6
+  override fun isPasswordValid() = password.length >= 6
 
-  fun areCredentialsValid() = isUsernameValid() && isPasswordValid()
+  override fun areCredentialsValid() = isUsernameValid() && isPasswordValid()
 }

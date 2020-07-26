@@ -1,11 +1,8 @@
 package codes.jenn.movieapp.repository
 
-import codes.jenn.movieapp.prefs.SharedPrefsManager
+interface UserRepository {
 
-class UserRepository(private val sharedPrefsManager: SharedPrefsManager) {
+  fun setUserLoggedIn(isLoggedIn: Boolean)
 
-
-  fun setUserLoggedIn(isLoggedIn: Boolean) = sharedPrefsManager.setUserLoggedIn(isLoggedIn)
-
-  fun isUserLoggedIn() = sharedPrefsManager.isUserLoggedIn()
+  fun isUserLoggedIn(): Boolean
 }

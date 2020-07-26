@@ -3,6 +3,7 @@ package codes.jenn.movieapp
 import android.app.Application
 import androidx.room.Room
 import codes.jenn.movieapp.common.utils.CredentialsValidator
+import codes.jenn.movieapp.common.utils.Validator
 import codes.jenn.movieapp.common.utils.WorkManagerHelper
 import codes.jenn.movieapp.db.DATABASE_NAME
 import codes.jenn.movieapp.db.MovieDatabase
@@ -13,7 +14,7 @@ import codes.jenn.movieapp.networking.buildApiService
 import codes.jenn.movieapp.prefs.SharedPrefsManager
 import codes.jenn.movieapp.repository.MovieRepository
 import codes.jenn.movieapp.repository.MovieRepositoryImpl
-import codes.jenn.movieapp.repository.UserRepository
+import codes.jenn.movieapp.repository.UserRepositoryImpl
 
 class App : Application() {
 
@@ -27,8 +28,8 @@ class App : Application() {
 
     private val movieDao by lazy { movieDb.movieDao() }
     private val movieApiService by lazy { buildApiService() }
-    private val credentialsValidator by lazy { CredentialsValidator() }
-    val userRepository by lazy { UserRepository(SharedPrefsManager()) }
+    private val credentialsValidator: Validator by lazy { CredentialsValidator() }
+    val userRepository by lazy { UserRepositoryImpl(SharedPrefsManager()) }
 
     val repository: MovieRepository by lazy { MovieRepositoryImpl(movieDao, movieApiService) }
     val movieViewModelFactory by lazy {

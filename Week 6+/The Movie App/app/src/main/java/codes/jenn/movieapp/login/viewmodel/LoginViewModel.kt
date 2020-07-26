@@ -3,11 +3,11 @@ package codes.jenn.movieapp.login.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import codes.jenn.movieapp.common.utils.CredentialsValidator
+import codes.jenn.movieapp.common.utils.Validator
 import codes.jenn.movieapp.repository.UserRepository
 
 class LoginViewModel(
-  private val credentialsValidator: CredentialsValidator,
+  private val credentialsValidator: Validator,
   private val userRepository: UserRepository
 ) : ViewModel() {
 
@@ -31,7 +31,7 @@ class LoginViewModel(
     }
   }
 
-  private fun checkUsername() {
+  internal fun checkUsername() {
     if (!credentialsValidator.isUsernameValid()) {
       loginViewState.value = InvalidUsername
     } else {
@@ -39,7 +39,7 @@ class LoginViewModel(
     }
   }
 
-  private fun checkPassword() {
+  internal fun checkPassword() {
     if (!credentialsValidator.isPasswordValid()) {
       loginViewState.value = InvalidPassword
     } else {
