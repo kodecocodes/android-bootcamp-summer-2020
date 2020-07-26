@@ -3,11 +3,13 @@ package codes.jenn.movieapp.login.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import codes.jenn.movieapp.App
 import codes.jenn.movieapp.R
 import codes.jenn.movieapp.common.extensions.onClick
-import codes.jenn.movieapp.common.utils.CredentialsValidator
+import codes.jenn.movieapp.common.extensions.subscribe
+import codes.jenn.movieapp.login.viewmodel.*
 import codes.jenn.movieapp.movies.view.startMovieActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -15,55 +17,55 @@ fun startLoginActivity(from: Context) = from.startActivity(Intent(from, LoginAct
 
 class LoginActivity : AppCompatActivity() {
 
-  private val credentialsValidator by lazy { CredentialsValidator() }
-  private val userRepository by lazy { App.userRepository}
+  private val viewModel: LoginViewModel by viewModels { App.loginViewModelFactory }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
-    checkIfUserLoggedIn()
-    loginUser.onClick { checkCredentials() }
+    setClickListeners()
+    subscribeToData()
+    viewModel.checkIfUserLoggedIn()
   }
 
-  private fun checkIfUserLoggedIn() {
-    if (userRepository.isUserLoggedIn()) {
-      navigateToMovieScreen()
+  private fun setClickListeners() {
+    loginUser.onClick {
+      viewModel.checkCredentials(
+        usernameInput.text.toString(),
+        passwordInput.text.toString()
+      )
     }
   }
 
-  private fun checkCredentials() {
-    credentialsValidator.setCredentials(
-      usernameInput.text.toString(),
-      passwordInput.text.toString()
-    )
-
-    toggleUsernameState()
-    togglePasswordState()
-
-    if (credentialsValidator.areCredentialsValid()) {
-      userRepository.setUserLoggedIn(true)
-      navigateToMovieScreen()
-    }
+  private fun subscribeToData() {
+    viewModel.getLoginViewState().subscribe(this, ::onLoginViewStateChanged)
   }
 
-  private fun toggleUsernameState() {
-    if (!credentialsValidator.isUsernameValid()) {
-      usernameInputLayout.error = getString(R.string.username_error)
-    } else {
-      usernameInputLayout.error = null
-    }
-  }
-
-  private fun togglePasswordState() {
-    if (!credentialsValidator.isPasswordValid()) {
-      passwordInputLayout.error = getString(R.string.password_error)
-    } else {
-      passwordInputLayout.error = null
-    }
+  private fun onLoginViewStateChanged(loginViewState: LoginViewState) = when (loginViewState) {
+    UserLoggedIn -> navigateToMovieScreen()
+    InvalidUsername -> setUsernameError()
+    InvalidPassword -> setPasswordError()
+    ValidUsername -> removeUsernameError()
+    ValidPassword -> removePasswordError()
   }
 
   private fun navigateToMovieScreen() {
     startMovieActivity(this)
     finish()
+  }
+
+  private fun setUsernameError() {
+    usernameInputLayout.error = getString(R.string.username_error)
+  }
+
+  private fun setPasswordError() {
+    passwordInputLayout.error = getString(R.string.password_error)
+  }
+
+  private fun removeUsernameError() {
+    usernameInputLayout.error = null
+  }
+
+  private fun removePasswordError() {
+    passwordInputLayout.error = null
   }
 }

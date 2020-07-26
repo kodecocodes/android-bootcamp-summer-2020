@@ -27,7 +27,7 @@ fun startMovieActivity(from: Context) = from.startActivity(Intent(from, MovieAct
 class MovieActivity : AppCompatActivity() {
 
   private val viewModel by lazy {
-    ViewModelProviders.of(this, App.viewModelFactory)
+    ViewModelProviders.of(this, App.movieViewModelFactory)
       .get(MovieViewModel::class.java)
   }
   private val movieAdapter by lazy { MovieAdapter(::movieClicked) }
