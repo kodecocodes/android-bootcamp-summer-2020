@@ -1,9 +1,6 @@
-package codes.jenn.movieapp.movies
+package codes.jenn.movieapp.movies.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import codes.jenn.movieapp.movies.model.Movie
 import codes.jenn.movieapp.repository.MovieRepository
 import codes.jenn.movieapp.repository.UserRepository
@@ -17,16 +14,18 @@ class MovieViewModel(
   private val userRepository: UserRepository
 ) : ViewModel() {
 
+  private val moviesViewState = MutableLiveData<MoviesViewState>()
   private var currentPage = 1
 
-  fun getMovies(): LiveData<List<Movie>> =
-    repository
-      .getAllMoviesFlow()
-      .flowOn(Dispatchers.IO) // also do extra operations
-      .catch {
-        emit(emptyList()) // in case of an error, emit an empty list
-      }
-      .asLiveData() // or repository.getAllMovies()
+  fun getMoviesViewState(): LiveData<MoviesViewState> = moviesViewState
+
+  fun getMovies(): LiveData<List<Movie>> = repository
+    .getAllMoviesFlow()
+    .flowOn(Dispatchers.IO) // also do extra operations
+    .catch {
+      emit(emptyList()) // in case of an error, emit an empty list
+    }
+    .asLiveData() // or repository.getAllMovies()
 
   fun fetchMovies() {
     viewModelScope.launch {
@@ -39,3 +38,5 @@ class MovieViewModel(
     userRepository.setUserLoggedIn(false)
   }
 }
+
+sealed class MoviesViewState

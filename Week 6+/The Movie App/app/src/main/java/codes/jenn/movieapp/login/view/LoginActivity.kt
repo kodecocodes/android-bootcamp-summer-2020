@@ -1,4 +1,4 @@
-package codes.jenn.movieapp.login
+package codes.jenn.movieapp.login.view
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,7 @@ import codes.jenn.movieapp.App
 import codes.jenn.movieapp.R
 import codes.jenn.movieapp.common.extensions.onClick
 import codes.jenn.movieapp.common.utils.CredentialsValidator
-import codes.jenn.movieapp.movies.startMovieActivity
+import codes.jenn.movieapp.movies.view.startMovieActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 fun startLoginActivity(from: Context) = from.startActivity(Intent(from, LoginActivity::class.java))

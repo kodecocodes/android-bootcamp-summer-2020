@@ -1,4 +1,4 @@
-package codes.jenn.movieapp.moviedetails
+package codes.jenn.movieapp.moviedetails.view
 
 import android.content.Context
 import android.content.Intent
@@ -9,7 +9,6 @@ import codes.jenn.movieapp.App
 import codes.jenn.movieapp.R
 import codes.jenn.movieapp.movies.model.Movie
 import codes.jenn.movieapp.networking.IMAGE_BASE_URL
-import codes.jenn.movieapp.repository.MovieRepositoryImpl
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.coroutines.launch

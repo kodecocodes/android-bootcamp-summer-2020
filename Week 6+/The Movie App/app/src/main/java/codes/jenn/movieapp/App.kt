@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import codes.jenn.movieapp.db.DATABASE_NAME
 import codes.jenn.movieapp.db.MovieDatabase
-import codes.jenn.movieapp.movies.MovieViewModelFactory
+import codes.jenn.movieapp.movies.viewmodel.MovieViewModelFactory
 import codes.jenn.movieapp.networking.buildApiService
 import codes.jenn.movieapp.prefs.SharedPrefsManager
 import codes.jenn.movieapp.repository.MovieRepository
@@ -26,7 +26,12 @@ class App : Application() {
     val userRepository by lazy { UserRepository(SharedPrefsManager()) }
 
     val repository: MovieRepository by lazy { MovieRepositoryImpl(movieDao, movieApiService) }
-    val viewModelFactory by lazy { MovieViewModelFactory(repository, userRepository) }
+    val viewModelFactory by lazy {
+      MovieViewModelFactory(
+        repository,
+        userRepository
+      )
+    }
 
     fun getAppContext() = instance
   }

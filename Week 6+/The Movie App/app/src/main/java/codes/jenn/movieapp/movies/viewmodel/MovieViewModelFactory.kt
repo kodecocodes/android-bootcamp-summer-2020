@@ -1,4 +1,4 @@
-package codes.jenn.movieapp.movies
+package codes.jenn.movieapp.movies.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +11,9 @@ class MovieViewModelFactory(
 ) : ViewModelProvider.Factory {
 
   override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-    return MovieViewModel(repository, userRepository) as T
+    return MovieViewModel(
+      repository,
+      userRepository
+    ) as T
   }
 }

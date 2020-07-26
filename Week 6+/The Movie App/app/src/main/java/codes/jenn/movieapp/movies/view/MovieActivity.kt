@@ -1,4 +1,4 @@
-package codes.jenn.movieapp.movies
+package codes.jenn.movieapp.movies.view
 
 import android.content.Context
 import android.content.Intent
@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.work.*
 import codes.jenn.movieapp.App
 import codes.jenn.movieapp.R
-import codes.jenn.movieapp.login.startLoginActivity
-import codes.jenn.movieapp.moviedetails.startMovieDetailsActivity
+import codes.jenn.movieapp.login.view.startLoginActivity
+import codes.jenn.movieapp.moviedetails.view.startMovieDetailsActivity
+import codes.jenn.movieapp.movies.viewmodel.MovieViewModel
 import codes.jenn.movieapp.movies.list.LazyLoadingListener
 import codes.jenn.movieapp.movies.list.MovieAdapter
 import codes.jenn.movieapp.movies.model.Movie
-import codes.jenn.movieapp.repository.UserRepository
 import codes.jenn.movieapp.worker.SynchronizeMoviesWorker
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
@@ -104,7 +104,10 @@ class MovieActivity : AppCompatActivity() {
   }
 
   private fun movieClicked(movie: Movie) {
-    startMovieDetailsActivity(this, movie.id)
+    startMovieDetailsActivity(
+      this,
+      movie.id
+    )
   }
 
   private fun navigateToLogin() {
