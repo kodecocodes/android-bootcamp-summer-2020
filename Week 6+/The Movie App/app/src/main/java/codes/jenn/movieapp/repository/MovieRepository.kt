@@ -9,7 +9,7 @@ interface MovieRepository {
 
   fun getAllMoviesFlow(): Flow<List<Movie>>
 
-  suspend fun getMovieById(movieId: Int?): Movie
+  suspend fun getMovieById(movieId: String?): Movie
 
   suspend fun loadMoviesForPage(page: Int)
 

@@ -16,7 +16,7 @@ class MovieRepositoryImpl(
 
   override fun getAllMoviesFlow(): Flow<List<Movie>> = movieDao.fetchMoviesFlow()
 
-  override suspend fun getMovieById(movieId: Int?): Movie = movieDao.fetchMovieById(movieId)
+  override suspend fun getMovieById(movieId: String?): Movie = movieDao.fetchMovieById(movieId)
 
   override suspend fun loadMoviesForPage(page: Int) {
     val moviesList = movieApiService.getPopularMovies(getMoviesQuery(page))

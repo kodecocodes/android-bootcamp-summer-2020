@@ -7,6 +7,7 @@ import codes.jenn.movieapp.common.utils.WorkManagerHelper
 import codes.jenn.movieapp.db.DATABASE_NAME
 import codes.jenn.movieapp.db.MovieDatabase
 import codes.jenn.movieapp.login.viewmodel.LoginViewModelFactory
+import codes.jenn.movieapp.moviedetails.viewmodel.MovieDetailsViewModelFactory
 import codes.jenn.movieapp.movies.viewmodel.MovieViewModelFactory
 import codes.jenn.movieapp.networking.buildApiService
 import codes.jenn.movieapp.prefs.SharedPrefsManager
@@ -43,7 +44,7 @@ class App : Application() {
         credentialsValidator
       )
     }
-
+    val movieDetailsViewModelFactory by lazy { MovieDetailsViewModelFactory(repository) }
     private val workManagerHelper by lazy { WorkManagerHelper(instance) }
 
     fun getAppContext() = instance
