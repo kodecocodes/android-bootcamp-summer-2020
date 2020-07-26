@@ -3,6 +3,7 @@ package codes.jenn.movieapp
 import android.app.Application
 import androidx.room.Room
 import codes.jenn.movieapp.common.utils.CredentialsValidator
+import codes.jenn.movieapp.common.utils.WorkManagerHelper
 import codes.jenn.movieapp.db.DATABASE_NAME
 import codes.jenn.movieapp.db.MovieDatabase
 import codes.jenn.movieapp.login.viewmodel.LoginViewModelFactory
@@ -32,7 +33,8 @@ class App : Application() {
     val movieViewModelFactory by lazy {
       MovieViewModelFactory(
         repository,
-        userRepository
+        userRepository,
+        workManagerHelper
       )
     }
     val loginViewModelFactory by lazy {
@@ -41,6 +43,8 @@ class App : Application() {
         credentialsValidator
       )
     }
+
+    private val workManagerHelper by lazy { WorkManagerHelper(instance) }
 
     fun getAppContext() = instance
   }

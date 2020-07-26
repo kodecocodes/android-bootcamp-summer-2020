@@ -5,74 +5,44 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.work.*
+import androidx.work.WorkManager
 import codes.jenn.movieapp.App
 import codes.jenn.movieapp.R
+import codes.jenn.movieapp.common.extensions.subscribe
 import codes.jenn.movieapp.login.view.startLoginActivity
 import codes.jenn.movieapp.moviedetails.view.startMovieDetailsActivity
-import codes.jenn.movieapp.movies.viewmodel.MovieViewModel
 import codes.jenn.movieapp.movies.list.LazyLoadingListener
 import codes.jenn.movieapp.movies.list.MovieAdapter
 import codes.jenn.movieapp.movies.model.Movie
-import codes.jenn.movieapp.worker.SynchronizeMoviesWorker
+import codes.jenn.movieapp.movies.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.concurrent.TimeUnit
 
 fun startMovieActivity(from: Context) = from.startActivity(Intent(from, MovieActivity::class.java))
 
 class MovieActivity : AppCompatActivity() {
 
-  private val viewModel by lazy {
-    ViewModelProviders.of(this, App.movieViewModelFactory)
-      .get(MovieViewModel::class.java)
-  }
+  private val viewModel by viewModels<MovieViewModel> { App.movieViewModelFactory }
   private val movieAdapter by lazy { MovieAdapter(::movieClicked) }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-
     initMovieList()
     viewModel.fetchMovies()
-
-    setUpSynchronization()
+    viewModel.setUpSynchronization()
+    subscribeToData()
   }
 
-  private fun setUpSynchronization() {
-    val constraints = buildConstraints()
-    val worker = buildWorker(constraints)
-
-    val workManager = WorkManager.getInstance(this)
-
-    workManager.enqueueUniquePeriodicWork(
-      SynchronizeMoviesWorker.WORKER_ID,
-      ExistingPeriodicWorkPolicy.KEEP,
-      worker
-    )
+  private fun subscribeToData() {
+    viewModel.getMovies().subscribe(this, ::onMoviesReceived)
   }
 
-  private fun buildConstraints(): Constraints {
-    return Constraints.Builder()
-      .setRequiresStorageNotLow(true)
-      .setRequiresBatteryNotLow(true)
-      .setRequiredNetworkType(NetworkType.CONNECTED)
-      .build()
-  }
-
-  private fun buildWorker(constraints: Constraints): PeriodicWorkRequest {
-    return PeriodicWorkRequestBuilder<SynchronizeMoviesWorker>(15, TimeUnit.MINUTES)
-      .setConstraints(constraints)
-      .build()
-  }
-
-  private fun stopSynchronization() {
-    val workManager = WorkManager.getInstance(this)
-
-    workManager.cancelUniqueWork(SynchronizeMoviesWorker.WORKER_ID)
+  private fun onMoviesReceived(movies: List<Movie>) {
+    movieAdapter.setMovies(movies)
+//    emptyStateView.isVisible = movies.isEmpty() Just an idea to show something instead of empty list
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -83,7 +53,7 @@ class MovieActivity : AppCompatActivity() {
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     if (item.itemId == R.id.logout) {
       viewModel.logOut()
-      stopSynchronization()
+      viewModel.stopSynchronization()
       navigateToLogin()
     }
     return false
@@ -95,12 +65,7 @@ class MovieActivity : AppCompatActivity() {
     moviesRecyclerView.addOnScrollListener(LazyLoadingListener {
       viewModel.fetchMovies()
     })
-
-    viewModel.getMovies().observe(this, Observer { value ->
-      if (value != null) {
-        movieAdapter.setMovies(value)
-      }
-    })
+    viewModel.getMovies()
   }
 
   private fun movieClicked(movie: Movie) {

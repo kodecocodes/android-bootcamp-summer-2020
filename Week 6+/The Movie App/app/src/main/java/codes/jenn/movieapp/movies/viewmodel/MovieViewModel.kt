@@ -1,31 +1,21 @@
 package codes.jenn.movieapp.movies.viewmodel
 
-import androidx.lifecycle.*
-import codes.jenn.movieapp.movies.model.Movie
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import codes.jenn.movieapp.common.utils.WorkManagerHelper
 import codes.jenn.movieapp.repository.MovieRepository
 import codes.jenn.movieapp.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class MovieViewModel(
   private val repository: MovieRepository,
-  private val userRepository: UserRepository
+  private val userRepository: UserRepository,
+  private val workManagerHelper: WorkManagerHelper
 ) : ViewModel() {
 
-  private val moviesViewState = MutableLiveData<MoviesViewState>()
   private var currentPage = 1
 
-  fun getMoviesViewState(): LiveData<MoviesViewState> = moviesViewState
-
-  fun getMovies(): LiveData<List<Movie>> = repository
-    .getAllMoviesFlow()
-    .flowOn(Dispatchers.IO) // also do extra operations
-    .catch {
-      emit(emptyList()) // in case of an error, emit an empty list
-    }
-    .asLiveData() // or repository.getAllMovies()
+  fun getMovies() = repository.getAllMovies()
 
   fun fetchMovies() {
     viewModelScope.launch {
@@ -37,6 +27,12 @@ class MovieViewModel(
   fun logOut() {
     userRepository.setUserLoggedIn(false)
   }
-}
 
-sealed class MoviesViewState
+  fun setUpSynchronization() {
+    workManagerHelper.setUpSynchronization()
+  }
+
+  fun stopSynchronization() {
+    workManagerHelper.stopSynchronization()
+  }
+}
