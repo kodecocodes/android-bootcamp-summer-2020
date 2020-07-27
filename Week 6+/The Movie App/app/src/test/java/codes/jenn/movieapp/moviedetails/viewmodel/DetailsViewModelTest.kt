@@ -3,14 +3,14 @@ package codes.jenn.movieapp.moviedetails.viewmodel
 import codes.jenn.movieapp.login.viewmodel.BaseViewModelTest
 import codes.jenn.movieapp.movies.model.Movie
 import codes.jenn.movieapp.repository.MovieRepository
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers
-import org.mockito.Mock
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
 @ExperimentalCoroutinesApi
@@ -18,7 +18,7 @@ class DetailsViewModelTest : BaseViewModelTest() {
 
   private lateinit var detailsViewModel: DetailsViewModel
 
-  @Mock private lateinit var movieRepository: MovieRepository
+  private val movieRepository: MovieRepository = mock()
 
   @Before
   fun setUp() {

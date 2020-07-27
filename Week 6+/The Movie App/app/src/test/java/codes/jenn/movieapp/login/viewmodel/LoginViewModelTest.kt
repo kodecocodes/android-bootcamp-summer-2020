@@ -2,6 +2,7 @@ package codes.jenn.movieapp.login.viewmodel
 
 import codes.jenn.movieapp.common.utils.Validator
 import codes.jenn.movieapp.repository.UserRepository
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -13,8 +14,8 @@ class LoginViewModelTest : BaseViewModelTest() {
 
   private lateinit var loginViewModel: LoginViewModel
 
-  @Mock private lateinit var credentialsValidator: Validator
-  @Mock private lateinit var userRepository: UserRepository
+  private val credentialsValidator: Validator = mock()
+  private val userRepository: UserRepository = mock()
 
   @Before
   fun setUp() {

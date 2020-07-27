@@ -4,19 +4,19 @@ import codes.jenn.movieapp.common.utils.WorkManagerHelper
 import codes.jenn.movieapp.login.viewmodel.BaseViewModelTest
 import codes.jenn.movieapp.repository.MovieRepository
 import codes.jenn.movieapp.repository.UserRepository
+import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
 @ExperimentalCoroutinesApi
 class MovieViewModelTest : BaseViewModelTest() {
 
-  @Mock private lateinit var movieRepository: MovieRepository
-  @Mock private lateinit var userRepository: UserRepository
-  @Mock private lateinit var workManagerHelper: WorkManagerHelper
+  private val movieRepository: MovieRepository = mock()
+  private val userRepository: UserRepository = mock()
+  private val workManagerHelper: WorkManagerHelper = mock()
   private lateinit var movieViewModel: MovieViewModel
 
   @Before
