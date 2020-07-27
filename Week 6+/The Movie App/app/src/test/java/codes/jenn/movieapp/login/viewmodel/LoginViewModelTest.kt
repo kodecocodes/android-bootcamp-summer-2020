@@ -1,25 +1,20 @@
 package codes.jenn.movieapp.login.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import codes.jenn.movieapp.common.utils.Validator
 import codes.jenn.movieapp.repository.UserRepository
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
-class LoginViewModelTest {
+class LoginViewModelTest : BaseViewModelTest() {
 
   private lateinit var loginViewModel: LoginViewModel
 
-  @get:Rule
-  val rule = InstantTaskExecutorRule()
-
-  @Mock lateinit var credentialsValidator: Validator
-  @Mock lateinit var userRepository: UserRepository
+  @Mock private lateinit var credentialsValidator: Validator
+  @Mock private lateinit var userRepository: UserRepository
 
   @Before
   fun setUp() {

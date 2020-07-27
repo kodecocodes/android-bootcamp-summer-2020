@@ -5,7 +5,7 @@ import androidx.work.*
 import codes.jenn.movieapp.worker.SynchronizeMoviesWorker
 import java.util.concurrent.TimeUnit
 
-class WorkManagerHelper(private val context: Context) {
+open class WorkManagerHelper(private val context: Context) {
 
   private val workManager by lazy { WorkManager.getInstance(context) }
 
@@ -19,6 +19,7 @@ class WorkManagerHelper(private val context: Context) {
       worker
     )
   }
+
   private fun buildConstraints(): Constraints {
     return Constraints.Builder()
       .setRequiresStorageNotLow(true)

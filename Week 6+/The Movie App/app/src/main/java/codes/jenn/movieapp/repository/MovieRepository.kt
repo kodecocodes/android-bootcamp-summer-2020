@@ -5,6 +5,7 @@ import codes.jenn.movieapp.movies.model.Movie
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
+
   fun getAllMovies(): LiveData<List<Movie>>
 
   fun getAllMoviesFlow(): Flow<List<Movie>>

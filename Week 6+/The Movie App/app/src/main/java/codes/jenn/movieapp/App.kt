@@ -29,7 +29,7 @@ class App : Application() {
     private val movieDao by lazy { movieDb.movieDao() }
     private val movieApiService by lazy { buildApiService() }
     private val credentialsValidator: Validator by lazy { CredentialsValidator() }
-    val userRepository by lazy { UserRepositoryImpl(SharedPrefsManager()) }
+    private val userRepository by lazy { UserRepositoryImpl(SharedPrefsManager()) }
 
     val repository: MovieRepository by lazy { MovieRepositoryImpl(movieDao, movieApiService) }
     val movieViewModelFactory by lazy {
