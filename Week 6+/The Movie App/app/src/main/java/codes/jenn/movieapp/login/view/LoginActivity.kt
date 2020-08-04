@@ -10,13 +10,13 @@ import codes.jenn.movieapp.common.extensions.subscribe
 import codes.jenn.movieapp.login.viewmodel.*
 import codes.jenn.movieapp.movies.view.startMovieActivity
 import kotlinx.android.synthetic.main.activity_login.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.scope.lifecycleScope
 
 fun startLoginActivity(from: Context) = from.startActivity(Intent(from, LoginActivity::class.java))
 
 class LoginActivity : AppCompatActivity() {
 
-  private val viewModel: LoginViewModel by viewModel()
+  private val viewModel: LoginViewModel by lifecycleScope.inject()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -66,5 +66,10 @@ class LoginActivity : AppCompatActivity() {
 
   private fun removePasswordError() {
     passwordInputLayout.error = null
+  }
+
+  override fun onDestroy() {
+    lifecycleScope.close()
+    super.onDestroy()
   }
 }
