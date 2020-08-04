@@ -3,21 +3,20 @@ package codes.jenn.movieapp.login.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import codes.jenn.movieapp.App
 import codes.jenn.movieapp.R
 import codes.jenn.movieapp.common.extensions.onClick
 import codes.jenn.movieapp.common.extensions.subscribe
 import codes.jenn.movieapp.login.viewmodel.*
 import codes.jenn.movieapp.movies.view.startMovieActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 fun startLoginActivity(from: Context) = from.startActivity(Intent(from, LoginActivity::class.java))
 
 class LoginActivity : AppCompatActivity() {
 
-  private val viewModel: LoginViewModel by viewModels { App.loginViewModelFactory }
+  private val viewModel: LoginViewModel by viewModel()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
