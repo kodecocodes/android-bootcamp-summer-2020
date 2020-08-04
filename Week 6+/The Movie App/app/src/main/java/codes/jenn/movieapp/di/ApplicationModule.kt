@@ -12,12 +12,10 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val applicationModule = module {
-  single {
-    SharedPrefsManager(
-      get(),
-      androidContext().getSharedPreferences(MOVIES_SHARED_PREFS, Context.MODE_PRIVATE)
-    )
-  }
+
+  single { androidContext().getSharedPreferences(MOVIES_SHARED_PREFS, Context.MODE_PRIVATE) }
+
+  single { SharedPrefsManager(get(), get()) }
 
   single { WorkManager.getInstance(get()) }
 

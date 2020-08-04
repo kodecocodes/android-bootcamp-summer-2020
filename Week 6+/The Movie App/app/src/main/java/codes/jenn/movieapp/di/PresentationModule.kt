@@ -9,7 +9,7 @@ import org.koin.dsl.module
 
 val presentationModule = module {
   scope<LoginActivity> {
-    scoped { LoginViewModel(get(), get()) }
+    viewModel { LoginViewModel(get(), get()) }
   }
 //  viewModel { LoginViewModel(get(), get()) }
   viewModel { MovieViewModel(get(), get(), get()) }
