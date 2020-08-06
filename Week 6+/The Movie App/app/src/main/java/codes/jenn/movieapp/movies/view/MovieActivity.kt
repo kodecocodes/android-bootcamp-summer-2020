@@ -5,11 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.work.WorkManager
-import codes.jenn.movieapp.App
 import codes.jenn.movieapp.R
 import codes.jenn.movieapp.common.extensions.subscribe
 import codes.jenn.movieapp.login.view.startLoginActivity
@@ -19,12 +16,13 @@ import codes.jenn.movieapp.movies.list.MovieAdapter
 import codes.jenn.movieapp.movies.model.Movie
 import codes.jenn.movieapp.movies.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 fun startMovieActivity(from: Context) = from.startActivity(Intent(from, MovieActivity::class.java))
 
 class MovieActivity : AppCompatActivity() {
 
-  private val viewModel by viewModels<MovieViewModel> { App.movieViewModelFactory }
+  private val viewModel: MovieViewModel by viewModel()
   private val movieAdapter by lazy { MovieAdapter(::movieClicked) }
 
   override fun onCreate(savedInstanceState: Bundle?) {

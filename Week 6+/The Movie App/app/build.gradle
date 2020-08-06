@@ -34,6 +34,10 @@ android {
     }
 }
 
+ext {
+    koin_version = "2.1.5"
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -71,4 +75,13 @@ dependencies {
 
     implementation "androidx.work:work-runtime-ktx:2.3.4"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+
+    // Koin for Android
+    implementation "org.koin:koin-android:$koin_version"
+    // or Koin for Lifecycle scoping
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    // or Koin for Android Architecture ViewModel
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    // or Koin for testing
+    testImplementation "org.koin:koin-test:$koin_version"
 }

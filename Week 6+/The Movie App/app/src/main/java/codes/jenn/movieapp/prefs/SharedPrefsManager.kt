@@ -1,11 +1,9 @@
 package codes.jenn.movieapp.prefs
 
 import android.content.Context
-import codes.jenn.movieapp.App
+import android.content.SharedPreferences
 
-class SharedPrefsManager {
-  private val context = App.getAppContext()
-  private val prefs = context.getSharedPreferences(MOVIES_SHARED_PREFS, Context.MODE_PRIVATE)
+class SharedPrefsManager(private val context: Context, private val prefs: SharedPreferences) {
 
   fun setUserLoggedIn(isLoggedIn: Boolean) {
     prefs.edit().putBoolean(KEY_LOGGED_IN, isLoggedIn).apply()
@@ -15,4 +13,3 @@ class SharedPrefsManager {
 }
 
 private const val KEY_LOGGED_IN = ""
-private const val MOVIES_SHARED_PREFS = ""
